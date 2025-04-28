@@ -10,17 +10,18 @@ app.set('views', path.join(__dirname, 'views'));
 // Servir archivos estáticos (imágenes, CSS, JS, etc.)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Ruta para mostrar home.html (aunque esté fuera de /public)
+// Ruta para mostrar home.html 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'home.html'));
 });
 
+//Ruta para mostrar mi index.ejs
 app.get('/index', (req, res) => {
   res.render('index'); // Renderiza views/index.ejs
 });
 
 
-// Ruta para el catálogo (catalogo.ejs)
+// Ruta para el catálogo.ejs
 app.get('/catalogo', (req, res) => {
   const productos = [
     { id: 1, nombre: 'Zapato Deportivo', precio: 39.99, categoria: 'deportivo', imagen: 'zapato1.jpg' },
