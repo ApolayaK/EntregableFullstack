@@ -1,0 +1,20 @@
+body {
+  background-color: #f8f9fa;
+}
+.container {
+  margin-top: 50px;
+}
+.btn-lg {
+  width: 200px;
+  height: 150px;
+  font-size: 18px;
+  margin: 10px;
+}
+.btn-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn-container .btn {
+  margin: 10px;
+}
