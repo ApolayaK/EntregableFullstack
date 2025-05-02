@@ -1,1 +1,129 @@
-<!--ADMINISTRACIÓN/CRUD:CREAR-->
+<!-- views/create.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrar Producto</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #222;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 20px;
+      display: block;
+      color: #333;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 16px;
+      margin-top: 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #1b5e20;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: #2e7d32;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .preview {
+      margin-top: 10px;
+      max-width: 100%;
+      height: auto;
+      display: none;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <a href="/" class="back">&larr; Volver al inicio</a>
+  <div class="container">
+    <h1>Registrar Producto</h1>
+
+    <form action="/crear" method="POST" enctype="multipart/form-data">
+      <label for="producto">Tipo de Producto:</label>
+      <select id="producto" name="producto" required>
+        <option value="" disabled selected>Seleccione un tipo</option>
+        <option value="Zapatilla deportiva">Zapatilla deportiva</option>
+        <option value="Botín casual">Botín casual</option>
+        <option value="Sandalia veraniega">Sandalia veraniega</option>
+        <option value="Zapato formal">Zapato formal</option>
+        <option value="Bota de montaña">Bota de montaña</option>
+      </select>
+
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+
+      <label for="precio">Precio (S/):</label>
+      <input type="number" step="0.01" id="precio" name="precio" required>
+
+      <label for="talla">Talla:</label>
+      <input type="text" id="talla" name="talla" required>
+
+      <label for="color">Color:</label>
+      <input type="text" id="color" name="color" required>
+
+      <label for="cantidad">Cantidad:</label>
+      <input type="number" id="cantidad" name="cantidad" required>
+
+      <label for="imagen">Imagen:</label>
+      <input type="file" id="imagen" name="imagen" accept="image/*" onchange="previewImage(event)" required>
+      <img id="preview" class="preview"/>
+
+      <button type="submit">Registrar</button>
+    </form>
+  </div>
+
+  <script>
+    function previewImage(event) {
+      const preview = document.getElementById('preview');
+      preview.src = URL.createObjectURL(event.target.files[0]);
+      preview.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

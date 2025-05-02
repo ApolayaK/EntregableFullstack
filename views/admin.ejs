@@ -1,0 +1,77 @@
+<!-- views/admin.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Administrar Productos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f1f1;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    img {
+      max-width: 100px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Listado de Productos</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Producto</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Talla</th>
+        <th>Color</th>
+        <th>Cantidad</th>
+        <th>Imagen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% productos.forEach(producto => { %>
+        <tr>
+          <td><%= producto.id %></td>
+          <td><%= producto.producto %></td>
+          <td><%= producto.descripcion %></td>
+          <td>S/ <%= Number(producto.precio).toFixed(2) %></td>
+          <td><%= producto.talla %></td>
+          <td><%= producto.color %></td>
+          <td><%= producto.cantidad %></td>
+          <td>
+            <img src="/uploads/<%= producto.imagen %>" alt="Producto">
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</body>
+</html>
