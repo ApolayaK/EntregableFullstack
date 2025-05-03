@@ -1,0 +1,29 @@
+# Tienda Online - Resumen
+
+**Proyecto**: Panel administrativo y catálogo para productos de calzado.
+
+**Stack**: Node.js · Express · MySQL · EJS · Multer · CSS/Bootstrap · SweetAlert2
+
+**Funcionalidades**:
+- CRUD de productos con imagen: registrar, editar, eliminar (borra imagen de `uploads/`).
+- Rutas clave:
+  - `/admin` → listado admin.
+  - `/create`, `/edit/:id`, `/delete/:id` → gestión.
+  - `/catalogo` → vista pública.
+
+**Estructura**:
+app.js
+config/conexion.js, multer.js
+controllers/productosController.js
+routes/productos.js
+views/*.ejs
+public/css, public/uploads
+
+markdown
+Copiar
+Editar
+
+**Uso rápido**:
+1. `npm install` + configurar BD en `config/conexion.js`.  
+2. Crear tabla `productos` en MySQL.  
+3. `npm start` y acceder a `/`.  

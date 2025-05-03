@@ -40,3 +40,6 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Ocurrió un error interno');
 });
+
+
+app.use('/', productosRoutes);

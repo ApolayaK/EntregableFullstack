@@ -81,3 +81,55 @@ exports.actualizarProducto = async (req, res) => {
         res.status(500).send('Error al actualizar el producto');
     }
 };
+
+
+const fs = require('fs');
+const path = require('path');
+
+// Eliminar producto
+exports.eliminarProducto = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    // 1) Recuperar nombre de la imagen (para borrarla del disco)
+    const [rows] = await pool.query(
+      "SELECT imagen FROM productos WHERE id = ?",
+      [id]
+    );
+    if (rows.length === 0) {
+      return res.redirect('/admin');
+    }
+    const nombreImagen = rows[0].imagen;
+
+    // 2) Borrar registro de la base de datos
+    await pool.query("DELETE FROM productos WHERE id = ?", [id]);
+
+    // 3) (Opcional) Borrar la imagen física
+    if (nombreImagen) {
+      const rutaImagen = path.join(__dirname, '../public/uploads/', nombreImagen);
+      fs.unlink(rutaImagen, err => {
+        if (err) console.warn('No se pudo borrar la imagen:', err);
+      });
+    }
+
+    // 4) Volver al panel de admin
+    res.redirect('/admin');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error al eliminar el producto');
+  }
+};
+
+// Listar productos para catálogo público
+exports.catalogoProductos = async (req, res) => {
+  try {
+    const [productos] = await pool.query(`
+      SELECT id, producto, descripcion, precio, imagen, talla, color, cantidad
+      FROM productos
+    `);
+    res.render('catalogo', { productos });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error al cargar el catálogo');
+  }
+};

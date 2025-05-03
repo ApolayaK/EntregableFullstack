@@ -18,5 +18,13 @@ router.post('/edit/:id', upload.single('imagen'), productosCtrl.actualizarProduc
 
 router.get('/admin', productosCtrl.listarProductos);
 
+// Ruta para eliminar (puede ser GET o, mejor, POST)
+router.get('/delete/:id', productosCtrl.eliminarProducto);
+router.post('/delete/:id', productosCtrl.eliminarProducto);
+
+// Ruta para ver el catálogo público
+router.get('/catalogo', productosCtrl.catalogoProductos);
+
+
 
 module.exports = router;
