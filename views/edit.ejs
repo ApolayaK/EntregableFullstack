@@ -1,1 +1,124 @@
 <!--ADMINISTRACIÓN/CRUD:EDITAR-->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Producto</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Reutiliza variables de estilo de admin.ejs */
+    :root {
+      --color-bg: #fffdfb;
+      --color-card: #ffffff;
+      --color-accent: #b87333;
+      --color-accent-hover: #9f5f28;
+      --color-shadow: rgba(0, 0, 0, 0.08);
+      --color-text: #222;
+      --color-border: #e6e3e3;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--color-bg);
+      padding: 40px;
+      color: var(--color-text);
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: var(--color-card);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px var(--color-shadow);
+    }
+
+    h1 {
+      color: var(--color-accent);
+      margin-bottom: 16px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    label {
+      font-weight: 600;
+    }
+
+    input,
+    textarea,
+    select {
+      padding: 8px;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+    }
+
+    .btn {
+      background: var(--color-accent);
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:hover {
+      background: var(--color-accent-hover);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1><i class="fas fa-pen"></i> Editar Producto</h1>
+    <form action="/edit/<%= producto.id %>" method="POST" enctype="multipart/form-data">
+      <label for="producto">Producto</label>
+      <select id="producto" name="producto" required>
+        <option value="Zapatilla deportiva" <%=producto.producto==='Zapatilla deportiva' ? 'selected' : '' %>>Zapatilla
+          deportiva</option>
+        <option value="Botín casual" <%=producto.producto==='Botín casual' ? 'selected' : '' %>>Botín casual</option>
+        <option value="Sandalia veraniega" <%=producto.producto==='Sandalia veraniega' ? 'selected' : '' %>>Sandalia
+          veraniega</option>
+        <option value="Zapato formal" <%=producto.producto==='Zapato formal' ? 'selected' : '' %>>Zapato formal</option>
+        <option value="Bota de montaña" <%=producto.producto==='Bota de montaña' ? 'selected' : '' %>>Bota de montaña
+        </option>
+      </select>
+
+
+
+
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" name="descripcion" rows="3" required><%= producto.descripcion %></textarea>
+
+      <label for="precio">Precio (S/)</label>
+      <input type="number" step="0.01" id="precio" name="precio" value="<%= producto.precio %>" required>
+
+      <label for="talla">Talla</label>
+      <input type="text" id="talla" name="talla" value="<%= producto.talla %>" required>
+
+      <label for="color">Color</label>
+      <input type="text" id="color" name="color" value="<%= producto.color %>" required>
+
+      <label for="cantidad">Cantidad</label>
+      <input type="number" id="cantidad" name="cantidad" value="<%= producto.cantidad %>" required>
+
+      <label for="imagen">Imagen (opcional)</label>
+      <input type="file" id="imagen" name="imagen" accept="image/*">
+      <small>Imagen actual: <%= producto.imagen %></small>
+
+      <input type="hidden" name="imagenActual" value="<%= producto.imagen %>">
+      <button type="submit">Guardar Cambios</button>
+    </form>
+  </div>
+</body>
+
+</html>

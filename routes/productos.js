@@ -1,96 +1,22 @@
-const express = require('express'); 
-const router = express.Router(); 
-const db = require('../config/conexion'); 
+const express = require('express');
+const router = express.Router();
+const productosCtrl = require('../controllers/productosController');
+const upload = require('../config/multer');  // Importar la configuración de Multer
 
-// Ruta principal que lista los productos
-router.get('/', async (req, res) => {
-  try {
-    const query = `
-      SELECT
-        P.idproducto,
-        P.nombre,
-        P.descripcion,
-        P.precio,
-        P.imagen,
-        C.categoria
-      FROM productos P
-      INNER JOIN categorias C ON P.idcategoria = C.idcategoria
-    `;
-    const [productos] = await db.query(query);
-    res.render('productos/index', { productos });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error al cargar los productos');
-  }
+// Ruta para la página principal
+router.get('/', (req, res) => {
+  res.render('home');  // Asegúrate de que 'home' es el nombre correcto de tu archivo .ejs
 });
 
-// Ruta para acceder a la vista de CREACIÓN de productos
-router.get('/create', async (req, res) => {
-  try {
-    const [categorias] = await db.query("SELECT * FROM categorias");
-    res.render('productos/create', { categorias });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error al cargar las categorías');
-  }
-});
+// Crear
+router.get('/create', productosCtrl.formularioCrear);
+router.post('/create', upload.single('imagen'), productosCtrl.crearProducto);  // Usar Multer en la ruta POST
 
-// Ruta para almacenar un nuevo producto
-router.post('/create', async (req, res) => {
-  try {
-    const { nombre, descripcion, precio, categoria, imagen } = req.body;
-    await db.query(
-      "INSERT INTO productos (nombre, descripcion, precio, idcategoria, imagen) VALUES (?, ?, ?, ?, ?)",
-      [nombre, descripcion, precio, categoria, imagen]
-    );
-    res.redirect('/productos');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error al crear el producto');
-  }
-});
+// Editar
+router.get('/edit/:id', productosCtrl.formularioEditar);
+router.post('/edit/:id', upload.single('imagen'), productosCtrl.actualizarProducto);  // Usar Multer en la ruta POST
 
-// Ruta para editar un producto
-router.get('/edit/:id', async (req, res) => {
-  try {
-    const [categorias] = await db.query("SELECT * FROM categorias");
-    const [producto] = await db.query("SELECT * FROM productos WHERE idproducto = ?", [req.params.id]);
+router.get('/admin', productosCtrl.listarProductos);
 
-    if (producto.length > 0) {
-      res.render('productos/edit', { categorias, producto: producto[0] });
-    } else {
-      res.redirect('/productos');
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error al cargar el producto');
-  }
-});
-
-// Ruta para actualizar los datos de un producto
-router.post('/edit/:id', async (req, res) => {
-  try {
-    const { nombre, descripcion, precio, categoria, imagen } = req.body;
-    await db.query(
-      "UPDATE productos SET nombre = ?, descripcion = ?, precio = ?, idcategoria = ?, imagen = ? WHERE idproducto = ?",
-      [nombre, descripcion, precio, categoria, imagen, req.params.id]
-    );
-    res.redirect('/productos');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error al actualizar el producto');
-  }
-});
-
-// Ruta para eliminar un producto
-router.get('/delete/:id', async (req, res) => {
-  try {
-    await db.query("DELETE FROM productos WHERE idproducto = ?", [req.params.id]);
-    res.redirect('/productos');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error al eliminar el producto');
-  }
-});
 
 module.exports = router;
